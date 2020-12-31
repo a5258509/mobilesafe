@@ -1,0 +1,3 @@
+include ':testxutils'
+include ':app'
+rootProject.name = "手机卫士"
