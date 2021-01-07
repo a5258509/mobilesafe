@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SettingView">
+        <!--name 属性的名称 尽量不要和系统重复 format 属性的值的类型-->
+        <attr name="title" format="string" />
+        <attr name="istoggle" format="boolean" />
+    </declare-styleable>
+
+</resources>

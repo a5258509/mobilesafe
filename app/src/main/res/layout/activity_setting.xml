@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:asao="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingActivity">
+    <!--android:gravity= 设置控件内的内容显示方式-->
+    <!--style引用样式-->
+    <TextView
+        style="@style/ActivityTitleStyle"
+        android:text="设置中心"
+        />
+    <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/setting_sv_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        asao:title="设置自动更新"
+        asao:istoggle="true"
+        android:clickable="true"
+        android:background="@drawable/selector_setting_item_top"/>
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        asao:title="设置骚扰拦截"
+        asao:istoggle="true"
+        android:background="@drawable/selector_setting_item_bottom"/>
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        asao:istoggle="true"
+        asao:title="归属地显示设置"
+        android:background="@drawable/selector_setting_item_top"/>
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        asao:title="归属地风格设置"
+        asao:istoggle="false"
+        android:background="@drawable/selector_setting_item_bottom"/>
+</LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:drawable="@mipmap/last_pressed" /> <!-- pressed 按下显示的图片-->
+    <item android:drawable="@mipmap/last_normal" /> <!-- default -->
+</selector>

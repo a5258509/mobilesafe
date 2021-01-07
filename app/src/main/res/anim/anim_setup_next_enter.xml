@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<translate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromXDelta="100%"
+    android:toXDelta="0%"
+    android:duration="500"
+    >
+    <!-- fromXDelta : 从哪里开始平移 
+         toXDelta ： 平移到哪里
+         duration :持续时间
+    -->
+
+</translate>

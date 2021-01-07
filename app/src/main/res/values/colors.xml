@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- resources : 将颜色封装成app的res资源 -->
+    <!-- color : 封装颜色的条目   name:封装的色值的名称 -->
+    <color name="lostfindaginbgpressedcolor">#9CFFCE</color>
+    <color name="lostfindaginbgnormalcolor">#FFFFFF</color>
 </resources>

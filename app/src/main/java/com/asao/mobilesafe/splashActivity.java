@@ -25,7 +25,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.asao.mobilesafe.utils.Constants;
 import com.asao.mobilesafe.utils.PackageUtil;
+import com.asao.mobilesafe.utils.SharedPreferencesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +39,7 @@ import org.xutils.x;
 
 import java.io.File;
 
-public class splashActivity extends AppCompatActivity {
+public class splashActivity extends AppCompatActivity  {
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -60,9 +62,16 @@ public class splashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         if (ContextCompat.checkSelfPermission(splashActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(splashActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            ActivityCompat.requestPermissions(splashActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SEND_SMS},1);
+        }else{
+            initView();
         }
 
+    }
+    //申请权限结果的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         initView();
     }
 
@@ -79,7 +88,14 @@ public class splashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                update();
+                //根据设置中心保存的开关状态,设置是更新还是不更新的操作
+                Boolean isupdate = SharedPreferencesUtil.getBoolean(getApplicationContext(), Constants.ISUPDATE, true);
+                if(isupdate){
+                    update();
+                }else{
+                    enterHome();
+                }
+
             }
         },2000);
         //方式二

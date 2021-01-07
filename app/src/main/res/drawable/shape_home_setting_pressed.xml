@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--shape 图片的形状 rectangle 矩形 oval 园 line 线 ring 环形-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <corners android:radius="8dp" />
+    <size android:height="35dp"
+        android:width="35dp"/>
+    <solid android:color="#99ffffff"/>
+
+</shape>
