@@ -14,4 +14,6 @@ public interface Constants {
     public static final String PROTECTED = "protected";
     //SIM卡序列号的key
     public static final String SIM = "sim";
+    //安全号码key
+    public static final String SAFENUMBER = "safenumber";
 }

@@ -44,13 +44,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-       Button mButton = findViewById(R.id.button);
-       mButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Toast.makeText(HomeActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
-           }
-       });
+
 
         initView();
     }

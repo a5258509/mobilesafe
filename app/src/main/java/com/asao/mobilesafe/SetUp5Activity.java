@@ -27,11 +27,9 @@ public class SetUp5Activity extends BaseActivity {
     }
     /**
      * 初始化控件
-     *
-     * 2016-10-11 上午11:39:39
      */
     private void initView() {
-        mProtected = (CheckBox) findViewById(R.id.setup5_cb_protected);
+        mProtected = findViewById(R.id.setup5_cb_protected);
 
         //2.当再次进入界面的时候，获取保存的状态，设置checkbox的选中状态
         boolean b = SharedPreferencesUtil.getBoolean(getApplicationContext(), Constants.PROTECTED, false);
