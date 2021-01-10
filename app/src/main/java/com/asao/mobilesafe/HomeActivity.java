@@ -1,5 +1,6 @@
 package com.asao.mobilesafe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +31,12 @@ import com.asao.mobilesafe.utils.SharedPreferencesUtil;
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ImageView mLogo;
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        return super.onContextItemSelected(item);
+    }
+
     private GridView mGridView;
     private final String[] TITLES = new String[] { "手机防盗", "骚扰拦截", "软件管家",
             "进程管理", "流量统计", "手机杀毒", "缓存清理", "常用工具" };
@@ -76,6 +84,10 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                     showEnterPassWordDialog();
                 }
                 break;
+            case 1:
+                //骚扰拦截
+                Intent intent=new Intent(HomeActivity.this,BlackNumberActivity.class);
+                startActivity(intent);
         }
     }
 

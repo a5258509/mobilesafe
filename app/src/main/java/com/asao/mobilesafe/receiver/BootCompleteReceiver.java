@@ -42,7 +42,7 @@ public class BootCompleteReceiver extends BroadcastReceiver {
                     //text : 发送的短信内容
                     //sentIntent : 判断是否发送成功
                     //deliveryIntent : 判断收件人是否接受成功
-                    smsManager.sendTextMessage("10010", null, "1", null, null);
+                    smsManager.sendTextMessage(SharedPreferencesUtil.getString(context,Constants.SAFENUMBER,"10010"), null, "1", null, null);
                 }
             }
         }

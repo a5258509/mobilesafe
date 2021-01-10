@@ -28,6 +28,7 @@
         />
 
     <RelativeLayout
+        android:id="@+id/setup4_rel_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_home_dialog_ok_bg"
@@ -43,6 +44,7 @@
             android:layout_centerVertical="true"
             />
         <ImageView
+            android:id="@+id/setup4_iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/admin_inactivated"

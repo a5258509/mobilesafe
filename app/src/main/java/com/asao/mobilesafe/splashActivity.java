@@ -62,7 +62,7 @@ public class splashActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_splash);
 
         if (ContextCompat.checkSelfPermission(splashActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(splashActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SEND_SMS},1);
+            ActivityCompat.requestPermissions(splashActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SEND_SMS,Manifest.permission.RECEIVE_SMS,Manifest.permission.ACCESS_FINE_LOCATION},1);
         }else{
             initView();
         }

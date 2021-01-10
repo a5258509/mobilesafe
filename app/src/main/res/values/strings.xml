@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">手机卫士</string>
+    <string name="sample_device_admin">手机卫士</string>
+    <string name="sample_device_admin_description">手机卫士,good</string>
 </resources>

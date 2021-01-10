@@ -4,14 +4,18 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 精确的位置的权限，真机中必须使用 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 大概位置的权限，真机中可以使用 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".MainApplication"
@@ -22,7 +26,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ContactActivity"></activity>
+        <activity android:name=".BlackNumberActivity"></activity>
+
+        <service
+            android:name=".GPSService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ContactActivity" />
         <activity android:name=".SetUp5Activity" />
         <activity android:name=".SetUp4Activity" />
         <activity android:name=".SetUp3Activity" />
@@ -50,6 +61,24 @@
 
                 <!-- 手机重启的广播事件 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.SmsReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver> <!-- 设备管理员权限 -->
+        <receiver
+            android:name=".receiver.AdminReceiver"
+            android:description="@string/sample_device_admin_description"
+            android:label="@string/sample_device_admin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_sample" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
 
