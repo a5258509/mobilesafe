@@ -26,7 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BlackNumberActivity"></activity>
+        <activity android:name=".BlackNumberUpdateActivity"></activity>
+        <activity android:name=".BlackNumberAddActivity" />
+        <activity android:name=".BlackNumberActivity" />
 
         <service
             android:name=".GPSService"

@@ -133,10 +133,11 @@ public class ContactActivity extends AppCompatActivity {
             if(contactPhoto!=null){
                 viewHolder.mIcon.setImageBitmap(contactPhoto);
             }else{
-                Drawable drawable = getResources().getDrawable(R.mipmap.ic_contact);
-                BitmapDrawable bd = (BitmapDrawable) drawable;
-                Bitmap bmp=bd.getBitmap();
-                viewHolder.mIcon.setImageBitmap(bmp);
+//                Drawable drawable = getResources().getDrawable(R.mipmap.ic_contact);
+//                BitmapDrawable bd = (BitmapDrawable) drawable;
+//                Bitmap bmp=bd.getBitmap();
+//                viewHolder.mIcon.setImageBitmap(bmp);
+                viewHolder.mIcon.setImageResource(R.mipmap.ic_contact);
             }
 
             return view;

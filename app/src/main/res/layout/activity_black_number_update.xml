@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BlackNumberUpdateActivity"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/ActivityTitleStyle"
+        android:text="更新黑名单号码"
+        />
+    <TextView
+        style="@style/SetUpContentTitleStyle"
+        android:text="电话号码:"
+        />
+    <EditText
+        android:id="@+id/blacknumberupdate_et_blacknumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="号码不能为空"
+        android:inputType="phone"
+        android:background="@drawable/shape_blacknumberupdate_edittext_bg"
+        android:enabled="false"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
+    <TextView
+        style="@style/SetUpContentTitleStyle"
+        android:text="拦截类型:"
+        />
+
+    <RadioGroup
+        android:id="@+id/blacknumberupdate_rg_modes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        >
+
+        <RadioButton
+            android:id="@+id/blacknumberupdate_rbtn_call"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="拦截电话" />
+
+        <RadioButton
+            android:id="@+id/blacknumberupdate_rbtn_sms"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="拦截短信" />
+
+        <RadioButton
+            android:id="@+id/blacknumberupdate_rbtn_all"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="全部拦截" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="8dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="更新"
+            android:textColor="#FFFFFF"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="bottom"
+            android:onClick="update"
+            android:background="@drawable/selector_home_dialog_ok_bg"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textColor="#000000"
+            android:layout_marginLeft="4dp"
+            android:layout_gravity="bottom"
+            android:onClick="cancel"
+            android:background="@drawable/selector_home_dialog_cancel_bg"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
