@@ -22,6 +22,7 @@
         android:clickable="true"
         android:background="@drawable/selector_setting_item_top"/>
     <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/setting_sv_blacknumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         asao:title="设置骚扰拦截"

@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.asao.mobilesafe.receiver.AdminReceiver;
+import com.asao.mobilesafe.service.GPSService;
 import com.asao.mobilesafe.utils.Constants;
 import com.asao.mobilesafe.utils.SharedPreferencesUtil;
 
@@ -155,7 +155,7 @@ public class LostFindActivity extends AppCompatActivity {
 
     private void gotoLocation() {
         //混合方式开启服务
-        Intent service=new Intent(this,GPSService.class);
+        Intent service=new Intent(this, GPSService.class);
         startService(service);
         conn = new MyConnection();
         bindService(service, conn,BIND_AUTO_CREATE);

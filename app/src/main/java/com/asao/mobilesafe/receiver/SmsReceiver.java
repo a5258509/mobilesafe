@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.telephony.SmsMessage;
 
-import com.asao.mobilesafe.GPSService;
+import com.asao.mobilesafe.service.GPSService;
 import com.asao.mobilesafe.R;
 
 public class SmsReceiver extends BroadcastReceiver {

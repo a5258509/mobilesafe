@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:asao="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/ActivityTitleStyle"
+        android:text="常用工具"
+        />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/commontool_sv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_top"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        asao:title="号码归属地查询"
+        asao:istoggle="false" />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_bottom"
+        asao:title="常用号码查询"
+        asao:istoggle="false" />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_top"
+        android:layout_marginTop="8dp"
+        asao:title="短信备份"
+        asao:istoggle="false" />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_bottom"
+        asao:title="短信还原"
+        asao:istoggle="false" />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_top"
+        android:layout_marginTop="8dp"
+        asao:title="程序锁管理"
+        asao:istoggle="false" />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_middle"
+        asao:title="开启电子狗服务1"
+        asao:istoggle="true" />
+
+    <com.asao.mobilesafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_bottom"
+        asao:title="开启电子狗服务2"
+        asao:istoggle="true" />
+
+</LinearLayout>

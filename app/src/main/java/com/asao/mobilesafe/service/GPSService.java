@@ -1,4 +1,4 @@
-package com.asao.mobilesafe;
+package com.asao.mobilesafe.service;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

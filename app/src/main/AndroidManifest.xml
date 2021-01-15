@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.asao.mobilesafe">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,10 +13,16 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 精确的位置的权限，真机中必须使用 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 大概位置的权限，真机中可以使用 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.MODIFY_PHONE_STATE" />
 
     <application
         android:name=".MainApplication"
@@ -26,12 +33,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BlackNumberUpdateActivity"></activity>
+        <activity android:name=".AddressActivity"></activity>
+        <activity android:name=".CommonToolActivity" />
+        <activity android:name=".BlackNumberUpdateActivity" />
         <activity android:name=".BlackNumberAddActivity" />
         <activity android:name=".BlackNumberActivity" />
 
         <service
-            android:name=".GPSService"
+            android:name=".service.GPSService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".service.BlackNumberService"
             android:enabled="true"
             android:exported="true" />
 

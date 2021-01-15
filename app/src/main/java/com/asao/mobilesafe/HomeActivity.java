@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,11 +27,16 @@ import com.asao.mobilesafe.utils.Constants;
 import com.asao.mobilesafe.utils.MD5Util;
 import com.asao.mobilesafe.utils.SharedPreferencesUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ImageView mLogo;
+
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -55,7 +61,56 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         initView();
+
+        //拷贝归属地数据库
+        copyDB("address.db");
     }
+
+
+    private void copyDB(String dbName) {
+        //判断如果数据库已经拷贝成功，不需要再次拷贝
+        File file = new File(getFilesDir(), dbName);
+        if(!file.exists()){
+            //1.获取assets目录的管理者
+            AssetManager assets = getAssets();
+            InputStream inputStream = null;
+            FileOutputStream outputStream=null;
+            try {
+                //2.读取数据资源
+                inputStream = assets.open(dbName);
+                //getFilesDir() : data -> data -> -> files//获取data/data/应用程序的包名/files目录
+                //getCacheDir() : data -> data ->-> cache获取data/data/应用程序的包名/cache目录
+                outputStream = new FileOutputStream(file);
+                //3.读写操作
+                byte[]b=new byte[1024];//缓冲区域
+                int len=-1;//保存读取的长度
+                while ((len= inputStream.read(b))!=-1){
+                    outputStream.write(b,0,len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if(inputStream!=null){
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (outputStream!=null){
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+
+
+    }
+
 
     private void initView() {
         mLogo = findViewById(R.id.home_iv_logo);
@@ -88,6 +143,14 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 //骚扰拦截
                 Intent intent=new Intent(HomeActivity.this,BlackNumberActivity.class);
                 startActivity(intent);
+                break;
+            case 7:
+                // 常用工具
+                Intent intent7=new Intent(HomeActivity.this,CommonToolActivity.class);
+                startActivity(intent7);
+                break;
+
+
         }
     }
 
