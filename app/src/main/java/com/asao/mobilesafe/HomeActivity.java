@@ -144,6 +144,11 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent intent=new Intent(HomeActivity.this,BlackNumberActivity.class);
                 startActivity(intent);
                 break;
+            case 2:
+                //软件管家
+                Intent intent2=new Intent(HomeActivity.this,AppManagerActivity.class);
+                startActivity(intent2);
+                break;
             case 7:
                 // 常用工具
                 Intent intent7=new Intent(HomeActivity.this,CommonToolActivity.class);

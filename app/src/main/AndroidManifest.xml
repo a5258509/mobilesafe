@@ -21,8 +21,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission
-        android:name="android.permission.MODIFY_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
 
     <application
         android:name=".MainApplication"
@@ -33,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AddressActivity"></activity>
+        <activity android:name=".AppManagerActivity"></activity>
+        <activity android:name=".AddressActivity" />
         <activity android:name=".CommonToolActivity" />
         <activity android:name=".BlackNumberUpdateActivity" />
         <activity android:name=".BlackNumberAddActivity" />
