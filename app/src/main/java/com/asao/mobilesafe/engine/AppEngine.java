@@ -42,6 +42,8 @@ public class AppEngine {
             String name = applicationInfo.loadLabel(pm).toString();
             //获取应用程序图标
             Drawable icon = applicationInfo.loadIcon(pm);
+            //获取资源路径
+            String sourceDir1 = applicationInfo.sourceDir;
             //占用空间大小
             String sourceDir = applicationInfo.sourceDir;//data/app/目录下的apk路径
             long size = new File(sourceDir).length();//获取apk文件大小
@@ -57,7 +59,7 @@ public class AppEngine {
                 isSystem=false;
             }
             //将信息保存在bean类中
-            Appinfo appinfo=new Appinfo(packageName,name,icon,size,isSystem);
+            Appinfo appinfo=new Appinfo(packageName,name,icon,size,isSystem,sourceDir1);
             //将bean类保存到list集合中
             list.add(appinfo);
         }

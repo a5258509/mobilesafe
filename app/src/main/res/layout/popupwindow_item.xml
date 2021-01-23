@@ -6,6 +6,7 @@
     android:background="@mipmap/pop_bg">
 
     <LinearLayout
+        android:id="@+id/pop_ll_uninstall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -28,6 +29,7 @@
 
 
     <LinearLayout
+            android:id="@+id/pop_ll_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -50,6 +52,7 @@
 
 
     <LinearLayout
+                android:id="@+id/pop_ll_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -64,7 +67,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="分享"
+                    android:text="提取"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:layout_gravity="center_horizontal"/>
@@ -72,6 +75,7 @@
 
 
     <LinearLayout
+                    android:id="@+id/pop_ll_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"

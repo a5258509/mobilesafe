@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:asao="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProcessManagerActivity">
+
+
+    <!--FrameLayout布局中,控件代码越靠下,显示越靠前-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/ActivityTitleStyle"
+            android:text="进程管理"
+            />
+        <!--|表示两种效果全部生效-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_processmanager_clear"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="12dp"
+            android:clickable="true"
+            android:onClick="clearn"/>
+    </FrameLayout>
+
+    <com.asao.mobilesafe.view.CustomProgressBar
+        android:id="@+id/process_cpb_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.asao.mobilesafe.view.CustomProgressBar
+        android:id="@+id/process_cpb_memory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- layout_weight : 如果只给一个控件设置layout_weight表示设置控件的渲染优先级别，值越大优先级越低 -->
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+            android:id="@+id/process_lv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </se.emilsjolander.stickylistheaders.StickyListHeadersListView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--进度条-->
+            <LinearLayout
+                android:id="@+id/appmanager_ll_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:visibility="gone">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:indeterminateDrawable="@drawable/blacknumber_progressbar_style"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="玩命加载中..."/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- 抽屉
+            handle : 抽屉的把手，控件的id
+            content : 抽屉的内容，控件的id
+        -->
+        <SlidingDrawer
+            android:id="@+id/process_sd_slidingdrawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:handle="@id/process_ll_handle"
+            android:content="@+id/process_ll_content">
+            <!--抽屉的把手  -->
+            <LinearLayout
+                android:id="@+id/process_ll_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@mipmap/drawer_bg"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/process_iv_arrow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/drawer_arrow_up"
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/process_iv_arrow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/drawer_arrow_up"/>
+            </LinearLayout>
+            <!--抽屉的内容  -->
+            <LinearLayout
+                android:id="@+id/process_ll_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进程管理设置"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:layout_margin="8dp"
+                />
+
+                <com.asao.mobilesafe.view.SettingView
+                    android:id="@+id/setting_sv_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_setting_item_top"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    asao:title="显示系统进程"
+                    asao:istoggle="true" />
+
+                <com.asao.mobilesafe.view.SettingView
+                    android:id="@+id/setting_sv_blacknumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_setting_item_bottom"
+                    asao:title="锁屏清理进程"
+                    asao:istoggle="true" />
+            </LinearLayout>
+        </SlidingDrawer>
+        
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        >
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="全选"
+            android:textColor="#000000"
+            android:background="@drawable/selector_home_dialog_cancel_bg"
+            android:layout_marginRight="4dp"
+            android:onClick="all"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="反选"
+            android:textColor="#000000"
+            android:background="@drawable/selector_home_dialog_cancel_bg"
+            android:layout_marginLeft="4dp"
+            android:onClick="unall"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

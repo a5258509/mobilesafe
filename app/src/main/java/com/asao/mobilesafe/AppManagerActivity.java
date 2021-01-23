@@ -1,11 +1,16 @@
 package com.asao.mobilesafe;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -16,16 +21,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asao.mobilesafe.bean.Appinfo;
 import com.asao.mobilesafe.engine.AppEngine;
 import com.asao.mobilesafe.view.CustomProgressBar;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppManagerActivity extends AppCompatActivity {
+public class AppManagerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CustomProgressBar mMemory;
     private CustomProgressBar mSD;
@@ -134,6 +144,14 @@ public class AppManagerActivity extends AppCompatActivity {
                 //参数2,3:弹窗的宽高
                 //参数4(focusable):能否获取焦点
                 View contentView=View.inflate(getApplicationContext(),R.layout.popupwindow_item,null);
+                
+                //初始化控件,设置点击事件
+                contentView.findViewById(R.id.pop_ll_uninstall).setOnClickListener(AppManagerActivity.this);
+                contentView.findViewById(R.id.pop_ll_info).setOnClickListener(AppManagerActivity.this);
+                contentView.findViewById(R.id.pop_ll_share).setOnClickListener(AppManagerActivity.this);
+                contentView.findViewById(R.id.pop_ll_open).setOnClickListener(AppManagerActivity.this);
+
+
                 window = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
                 //设置popupwindow样式动画
                 window.setAnimationStyle(R.style.AddressStyleAnimation);
@@ -206,6 +224,8 @@ public class AppManagerActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+
 
     private class Myadapter extends BaseAdapter{
 
@@ -330,8 +350,148 @@ public class AppManagerActivity extends AppCompatActivity {
     }
 
 
+    //气泡弹窗中的点击事件
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.pop_ll_uninstall:
+                //卸载
+                uninstall();
+                break;
+            case R.id.pop_ll_open:
+                //打开
+                open();
+                break;
+            case R.id.pop_ll_share:
+                //分享
+                share();
+                break;
+            case R.id.pop_ll_info:
+                //信息
+                info();
+                break;
+        }
+    }
 
 
+
+
+    //卸载apk,安卓api28后需要REQUEST_DELETE_PACKAGES权限
+
+    private void uninstall() {
+//        if(!appinfo.isSystem){
+//
+//        }
+
+        Intent intent=new Intent();
+        intent.setAction("android.intent.action.DELETE");
+       // intent.setAction("android.intent.action.PACKAGE_REMOVED");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.setData(Uri.parse("package:"+appinfo.packageName));
+        //startActivity(intent);
+        //因为从系统的卸载界面回到我们的界面的时候，还需要刷新界面，将已经卸载的应用程序的信息给删除
+        startActivityForResult(intent,0);
+    }
+    private void open() {
+        PackageManager pm=getPackageManager();
+        //获取应用程序启动意图
+        Intent intent = pm.getLaunchIntentForPackage(appinfo.packageName);
+        if(intent!=null)
+        startActivity(intent);
+    }
+
+    //提取apk
+    private void share() {
+        String path = appinfo.sourceDir1;
+        String packageName = appinfo.packageName;
+        File formFile=new File(path);
+        if (!formFile.exists()) {
+            Toast.makeText(this, "app路径不存在", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String appBackupPath=Environment.getExternalStorageDirectory()+"/asao/mobilesafe";
+        String toFileName=packageName+"_"+".apk";
+        File toFilePath=new File(appBackupPath);
+        if (!toFilePath.exists()) {
+            boolean result = toFilePath.mkdirs();
+            if (!result) {
+                Toast.makeText(this, "创建文件夹失败", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        File toFile = new File(toFilePath, toFileName);
+        if (toFile.exists()) {
+            boolean result = toFile.delete();
+            if (!result) {
+                Toast.makeText(this, "删除文件失败", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        try {
+            boolean result = toFile.createNewFile();
+            if (!result) {
+                Toast.makeText(this, "创建文件失败", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!toFile.exists()) {
+            Toast.makeText(this, "目标文件生成失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        javaNioTransfer(formFile, toFile);
+        Toast.makeText(this, "Apk已保存到\n" + toFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    }
+
+    private void javaNioTransfer(File source, File target) {
+
+        FileChannel in = null;
+        FileChannel out = null;
+        FileInputStream inStream = null;
+        FileOutputStream outStream = null;
+        try {
+            inStream = new FileInputStream(source);
+            outStream = new FileOutputStream(target);
+            in = inStream.getChannel();
+            out = outStream.getChannel();
+            in.transferTo(in.position(), in.size(), out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inStream.close();
+                in.close();
+                outStream.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //信息
+    private void info() {
+        //通过随便打开一个应用信息,去找到系统查看信息的intent是什么,然后在logcat中输入act=就能过滤出系统调用了哪个intent
+        //START u0 {act=android.settings.APPLICATION_DETAILS_SETTINGS
+        // dat=package:tv.danmaku.bili flg=0x10008000
+        // cmp=com.android.settings/.applications.InstalledAppDetails} from uid 10036
+        Intent intent=new Intent();
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.setData(Uri.parse("package:"+appinfo.packageName));
+        startActivity(intent);
+    }
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //刷新界面
+        initData();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 
 

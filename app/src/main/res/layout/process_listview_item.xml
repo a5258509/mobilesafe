@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    >
+
+    <ImageView
+        android:id="@+id/item_iv_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_contact"
+        android:layout_centerVertical="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/item_iv_icon"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        >
+        <TextView
+            android:id="@+id/item_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="赵日天"
+            android:textColor="#000000"
+            />
+        <TextView
+            android:id="@+id/item_tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13838384388"
+            android:textColor="#99000000"
+            />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/item_cb_ischecked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:clickable="false"/>
+
+</RelativeLayout>
