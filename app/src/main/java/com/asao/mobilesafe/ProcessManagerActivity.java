@@ -3,17 +3,23 @@ package com.asao.mobilesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Formatter;
+import android.transition.Slide;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +27,13 @@ import com.asao.mobilesafe.bean.Appinfo;
 import com.asao.mobilesafe.bean.ProcessInfo;
 import com.asao.mobilesafe.engine.AppEngine;
 import com.asao.mobilesafe.engine.ProcessEngine;
+import com.asao.mobilesafe.service.BlackNumberService;
+import com.asao.mobilesafe.service.ScreenOffService;
+import com.asao.mobilesafe.utils.Constants;
+import com.asao.mobilesafe.utils.ServiceUtil;
+import com.asao.mobilesafe.utils.SharedPreferencesUtil;
 import com.asao.mobilesafe.view.CustomProgressBar;
+import com.asao.mobilesafe.view.SettingView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +57,19 @@ public class ProcessManagerActivity extends AppCompatActivity {
     private Myadapter myadapter;
     private int runningProcessCount;
     private int allProcessCount;
+    private ImageView mArrow1;
+    private ImageView mArrow2;
+    private SlidingDrawer mDrawer;
+
+    /**是否显示系统进程的标示**/
+    private boolean isShowSystem=true;
+    private SettingView mIsShowSystem;
+    private SettingView mScreenOff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process_manager);
-
         initView();
 
     }
@@ -60,6 +79,15 @@ public class ProcessManagerActivity extends AppCompatActivity {
         mMemory = findViewById(R.id.process_cpb_memory);
         mListView = findViewById(R.id.process_lv_listview);
         mLLLoading = findViewById(R.id.appmanager_ll_loading);
+        mArrow1 = findViewById(R.id.process_iv_arrow1);
+        mArrow2 = findViewById(R.id.process_iv_arrow2);
+        mDrawer = findViewById(R.id.process_sd_slidingdrawer);
+        mIsShowSystem = findViewById(R.id.process_sv_isshowsystem);
+        mScreenOff = findViewById(R.id.process_sv_screenoff);
+
+        //实现箭头渐变动画
+        setAnimation();
+
 
         //耗时操作,加载应用程序数据之前，显示进度条
         mLLLoading.setVisibility(View.VISIBLE);
@@ -72,7 +100,122 @@ public class ProcessManagerActivity extends AppCompatActivity {
 
         //设置条目点击事件
         onListViewUtemClickListener();
+
+
+        //设置抽屉的打开和关闭的监听操作
+        setOnSlidingDrawerListener();
+
+        //显示系统进程的条目的点击事件
+        setOnIsShowSystemListener();
+
+        //设置锁屏清理进程的点击事件
+        setOnScreenOff();
+
     }
+
+    private void setOnScreenOff() {
+        //1.开启/关闭服务
+        mScreenOff.setOnClickListener(v -> {
+            //需要知道服务是否开启
+            //不能SharedPreferences的原因：因为在系统的设置操作可以手动的停止服务，手动停止服务因为是在系统的设置界面中的，所以不好更改SharedPreferences保存的值
+            // 动态的获取服务是否开启
+            Intent intent=new Intent(getApplicationContext(), ScreenOffService.class);
+            if(ServiceUtil.isServiceRunning(ProcessManagerActivity.this,"com.asao.mobilesafe.service.ScreenOffService")){
+                //开启->点击关闭服务
+                stopService(intent);
+            }else {
+                //关闭->点击开启服务
+                startService(intent);
+            }
+
+            //开关
+            mScreenOff.toggle();
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //2.再次进入的时候，判断锁屏清理进程服务是否开启，设置开关状态
+        boolean serviceIsRunning = ServiceUtil.isServiceRunning(ProcessManagerActivity.this, "com.asao.mobilesafe.service.ScreenOffService");
+        mScreenOff.setToggleOn(serviceIsRunning);
+    }
+
+
+    //显示系统进程的条目的点击事件
+    private void setOnIsShowSystemListener() {
+        //再次进入界面的时候，回显操作
+        boolean b = SharedPreferencesUtil.getBoolean(getApplicationContext(), Constants.PROCESSISSHOWSYSTEM, true);
+        //需要将按钮及listview是否显示系统进程都进行回显示
+        mIsShowSystem.setToggleOn(b);
+        isShowSystem = b;
+
+        mIsShowSystem.setOnClickListener(v -> {
+            mIsShowSystem.toggle();
+            //当开启/关闭条目的时候，需要隐藏/显示系统进程，所以需要将开关的状态设置给隐藏显示系统进程的标示
+            boolean istoggle = mIsShowSystem.istoggle();
+            isShowSystem=istoggle;
+            //更新界面
+            myadapter.notifyDataSetChanged();
+            //保存条目的开关状态，方便回显
+            SharedPreferencesUtil.savaBoolean(getApplicationContext(),Constants.PROCESSISSHOWSYSTEM,mIsShowSystem.istoggle());
+        });
+    }
+
+    /**
+     * 抽屉的打开和关闭的监听操作
+     *
+     */
+    private void setOnSlidingDrawerListener() {
+        //打开抽屉的监听
+        mDrawer.setOnDrawerOpenListener(() -> {
+            //消除动画
+            closeAnimation();
+        });
+        //当抽屉关闭的时候调用的方法
+        mDrawer.setOnDrawerCloseListener(() -> {
+            //重新开始执行动画
+            setAnimation();
+        });
+    }
+
+    /**
+     * 消除动画
+     *
+     */
+    protected void closeAnimation() {
+        mArrow1.clearAnimation();//清除动画
+        mArrow2.clearAnimation();
+
+        //更改显示的箭头的方向
+        mArrow1.setImageResource(R.mipmap.drawer_arrow_down);
+        mArrow2.setImageResource(R.mipmap.drawer_arrow_down);
+    }
+
+    /**
+     * 实现箭头动画的
+     *
+     */
+    private void setAnimation() {
+        //设置箭头的向上的图片
+        mArrow1.setImageResource(R.mipmap.drawer_arrow_up);
+        mArrow2.setImageResource(R.mipmap.drawer_arrow_up);
+
+        //半透明 -> 不透明
+        AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
+        animation1.setDuration(500);//持续时间
+        animation1.setRepeatCount(Animation.INFINITE);//执行次数，一直执行
+        animation1.setRepeatMode(Animation.REVERSE);//执行的类型
+        mArrow1.startAnimation(animation1);//执行动画
+        //不透明 -> 半透明
+        AlphaAnimation animation2 = new AlphaAnimation(1.0f, 0.2f);
+        animation2.setDuration(500);//持续时间
+        animation2.setRepeatCount(Animation.INFINITE);//执行次数，一直执行
+        animation2.setRepeatMode(Animation.REVERSE);//执行的类型
+        mArrow2.startAnimation(animation2);//执行动画
+    }
+
+
 
     private void onListViewUtemClickListener() {
 
@@ -175,8 +318,10 @@ public class ProcessManagerActivity extends AppCompatActivity {
 
 
         @Override
+        //有多少条目就展示多少个数据
         public int getCount() {
-            return userProcessInfos.size()+systemProcessInfos.size();
+
+            return isShowSystem ? userProcessInfos.size()+systemProcessInfos.size():userProcessInfos.size();
         }
         //position是listview的角标
         @Override
@@ -292,8 +437,11 @@ public class ProcessManagerActivity extends AppCompatActivity {
                 info.ischecked = true;
             }
         }
-        for (ProcessInfo info : systemProcessInfos) {
+        //判断系统进程是否显示，显示，操作系统进程
+        if (isShowSystem) {
+            for (ProcessInfo info : systemProcessInfos) {
                 info.ischecked = true;
+            }
         }
         myadapter.notifyDataSetChanged();
     }
@@ -307,9 +455,11 @@ public class ProcessManagerActivity extends AppCompatActivity {
                 info.ischecked = !info.ischecked;
             }
         }
-        for (ProcessInfo info : systemProcessInfos) {
-            //判断如果是当前应用程序，不做全选操作
-            info.ischecked = !info.ischecked;
+        if (isShowSystem) {
+            for (ProcessInfo info : systemProcessInfos) {
+                //判断如果是当前应用程序，不做全选操作
+                info.ischecked = !info.ischecked;
+            }
         }
         //更新界面操作
         myadapter.notifyDataSetChanged();
@@ -332,10 +482,12 @@ public class ProcessManagerActivity extends AppCompatActivity {
             }
         }
         //系统集合
-        for (ProcessInfo info : systemProcessInfos) {
-            if (info.ischecked) {
-                am.killBackgroundProcesses(info.packageName);
-                deleteInfos.add(info);
+        if (isShowSystem) {
+            for (ProcessInfo info : systemProcessInfos) {
+                if (info.ischecked) {
+                    am.killBackgroundProcesses(info.packageName);
+                    deleteInfos.add(info);
+                }
             }
         }
 

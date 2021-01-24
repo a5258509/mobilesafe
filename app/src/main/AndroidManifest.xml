@@ -34,7 +34,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProcessManagerActivity"></activity>
+        <service
+            android:name=".service.WidgetService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".service.ScreenOffService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ProcessManagerActivity" />
         <activity android:name=".AppManagerActivity" />
         <activity android:name=".AddressActivity" />
         <activity android:name=".CommonToolActivity" />
@@ -98,6 +107,15 @@
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
+        </receiver> <!-- 桌面小控件 -->
+        <receiver android:name=".receiver.WidgetReceiver">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/example_appwidget_info" />
         </receiver>
 
         <provider

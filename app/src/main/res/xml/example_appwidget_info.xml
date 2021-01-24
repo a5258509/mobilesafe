@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="300dp"
+    android:minHeight="40dp"
+    android:updatePeriodMillis="0"
+    android:previewImage="@mipmap/icon"
+    android:initialLayout="@layout/process_widget">
+</appwidget-provider>
+
+    <!--
+        minWidth,minHeight : 最小的宽高
+        updatePeriodMillis ： 更新时间，单位毫秒值，并且最小不能小于30分钟
+        previewImage ： 预览界面的图标，默认使用当前应用程序的图标
+        initialLayout ： 小控件的布局，加载布局文件
+        configure ： 当创建小控件的时候，打开的界面
+        resizeMode ： 可选属性，设置小控件的尺寸规则，
+        widgetCategory ： 高版本中的属性，设置小控件的显示位置，keyguard ： 锁屏界面
+        initialKeyguardLayout ： 高版本中的属性，在锁屏界面小控件布局
+         -->

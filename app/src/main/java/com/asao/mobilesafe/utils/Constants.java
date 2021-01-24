@@ -16,4 +16,6 @@ public interface Constants {
     public static final String SIM = "sim";
     //安全号码key
     public static final String SAFENUMBER = "safenumber";
+    //进程管理隐藏显示系统进程的key
+    public static final String PROCESSISSHOWSYSTEM = "processisshowsystem";
 }

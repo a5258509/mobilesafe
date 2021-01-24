@@ -164,8 +164,21 @@ public class ProcessEngine {
 
     }
 
+    /**
+     * 清理所有进程
+     *
+     */
+    public static void killALLProcess(Context context){
+        ActivityManager am= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> allProcess = am.getRunningAppProcesses();
+        for(ActivityManager.RunningAppProcessInfo runningAppProcessInfo:allProcess) {
+            //屏蔽不能清理我们自己应用程序的进程
+            if (!runningAppProcessInfo.processName.equals(context.getPackageName())) {
+                am.killBackgroundProcesses(runningAppProcessInfo.processName);
+            }
+        }
 
-
+    }
 
 
 

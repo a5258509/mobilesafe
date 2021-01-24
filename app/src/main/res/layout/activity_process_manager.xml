@@ -124,7 +124,7 @@
                 />
 
                 <com.asao.mobilesafe.view.SettingView
-                    android:id="@+id/setting_sv_update"
+                    android:id="@+id/process_sv_isshowsystem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_setting_item_top"
@@ -134,7 +134,7 @@
                     asao:istoggle="true" />
 
                 <com.asao.mobilesafe.view.SettingView
-                    android:id="@+id/setting_sv_blacknumber"
+                    android:id="@+id/process_sv_screenoff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_setting_item_bottom"
