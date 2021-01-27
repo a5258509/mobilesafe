@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -24,6 +25,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MainApplication"
@@ -34,10 +36,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
+        <activity android:name=".AppLockActivity"></activity>
+
+        <service
+            android:name=".service.ProtectedService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".service.WidgetService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
             android:name=".service.ScreenOffService"
             android:enabled="true"
@@ -46,7 +54,22 @@
         <activity android:name=".ProcessManagerActivity" />
         <activity android:name=".AppManagerActivity" />
         <activity android:name=".AddressActivity" />
-        <activity android:name=".CommonToolActivity" />
+        <activity android:name=".CommonToolActivity">
+
+            <!-- 具备短信默认应用条件 ① -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </activity>
         <activity android:name=".BlackNumberUpdateActivity" />
         <activity android:name=".BlackNumberAddActivity" />
         <activity android:name=".BlackNumberActivity" />
@@ -117,6 +140,45 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/example_appwidget_info" />
         </receiver>
+        <receiver android:name=".receiver.KillProcessReceiver">
+            <intent-filter>
+                <action android:name="com.asao.mobilesafe.CLEAR_PROCESS" />
+            </intent-filter>
+        </receiver> <!-- 具备短信默认应用条件 ② -->
+        <!-- BroadcastReceiver that listens for incoming SMS messages -->
+        <receiver
+            android:name=".receiver.SmsReceiver1"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+        </receiver> <!-- 具备短信默认应用条件 ③ -->
+        <!-- BroadcastReceiver that listens for incoming MMS messages -->
+        <receiver
+            android:name=".receiver.MmsReceiver1"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver> <!-- 具备短信默认应用条件 ④ -->
+        <!-- Service that delivers messages from the phone "quick response" -->
+        <service
+            android:name=".service.HeadlessSmsSendService"
+            android:exported="true"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

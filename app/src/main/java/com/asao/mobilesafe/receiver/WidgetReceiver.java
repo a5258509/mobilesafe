@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.asao.mobilesafe.service.WidgetService;
 
@@ -33,6 +34,7 @@ public class WidgetReceiver extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
         //开启服务
+        Log.d("main1","开启桌面小控件服务");
         Intent intent = new Intent(context, WidgetService.class);
         context.startService(intent);
     }

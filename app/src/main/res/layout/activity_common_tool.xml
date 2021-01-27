@@ -27,6 +27,7 @@
         asao:istoggle="false" />
 
     <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/commontool_sv_readsms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_setting_item_top"
@@ -35,6 +36,7 @@
         asao:istoggle="false" />
 
     <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/commontool_sv_writesms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_setting_item_bottom"
@@ -42,6 +44,7 @@
         asao:istoggle="false" />
 
     <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/commontool_sv_applock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_setting_item_top"

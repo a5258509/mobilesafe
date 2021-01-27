@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asao.mobilesafe.service.ProtectedService;
 import com.asao.mobilesafe.utils.Constants;
 import com.asao.mobilesafe.utils.MD5Util;
 import com.asao.mobilesafe.utils.SharedPreferencesUtil;
@@ -64,6 +65,9 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //拷贝归属地数据库
         copyDB("address.db");
+        
+        //开启守护进程
+        startService(new Intent(this, ProtectedService.class));
     }
 
 

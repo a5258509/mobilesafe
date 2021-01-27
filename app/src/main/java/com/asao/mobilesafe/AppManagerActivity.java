@@ -3,6 +3,7 @@ package com.asao.mobilesafe;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -351,6 +352,7 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
 
 
     //气泡弹窗中的点击事件
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()){

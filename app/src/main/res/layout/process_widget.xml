@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@mipmap/widget_bg_portrait"
-    android:gravity="center_vertical" >
+    android:gravity="center_vertical"
+    android:id="@+id/process_ll_root">
 
     <LinearLayout
         android:layout_width="0.0dip"

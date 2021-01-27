@@ -196,7 +196,6 @@ public class BlackNumberActivity extends AppCompatActivity {
             //设置删除按钮的点击事件
             viewHolder.mDelete.setOnClickListener(v -> {
                 //弹出删除黑名单对话框
-                Log.d("main1","1");
                 AlertDialog.Builder builder=new AlertDialog.Builder(BlackNumberActivity.this);
                 builder.setMessage("是否删除黑名单号码"+blackNumberInfo.blacknumber);
                 builder.setPositiveButton("确定", (dialog, which) -> {

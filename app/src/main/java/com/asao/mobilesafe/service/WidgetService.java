@@ -5,10 +5,18 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.text.format.Formatter;
+import android.widget.RemoteViews;
+
+import com.asao.mobilesafe.ProcessManagerActivity;
+import com.asao.mobilesafe.R;
+import com.asao.mobilesafe.engine.ProcessEngine;
+import com.asao.mobilesafe.receiver.WidgetReceiver;
 
 public class WidgetService extends Service {
 
@@ -28,6 +36,35 @@ public class WidgetService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             System.out.println("widget更新了..");
+            ComponentName provider = new ComponentName(context, WidgetReceiver.class);
+            //参数1：当前应用程序的包名
+            //参数2：布局文件的id
+            RemoteViews views =  new RemoteViews(context.getPackageName(), R.layout.process_widget);
+
+            //远程布局不能findviewbyid
+            //viewId : 控件的id
+            //text : 显示的文本
+            views.setTextViewText(R.id.process_count, "正在运行的软件:"+ ProcessEngine.getRunningProcessCount(context));//给相应控件设置文本
+            views.setTextViewText(R.id.process_memory, "可用内存:"+ Formatter.formatFileSize(context, ProcessEngine.getFreeMemory(context)));
+
+            //设置桌面小控件的点击事件
+            Intent intent1=new Intent(context, ProcessManagerActivity.class);
+            PendingIntent pendingIntent=PendingIntent.getActivity(context,101,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.process_ll_root,pendingIntent);//设置控件的点击事件，点击事件通过pendingIntent进行操作
+
+            //一键清理点击事件
+            //因为点击一键清理，没有跳转，没有开启服务，只能发送自定义的广播
+            Intent intent2=new Intent();
+            intent2.setAction("com.asao.mobilesafe.CLEAR_PROCESS");
+            PendingIntent pendingIntent1=PendingIntent.getBroadcast(context,102,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.btn_clear,pendingIntent1);
+
+
+            //ComponentName : 组件的标示
+            //RemoteViews :远程布局，在当前应用程序中创建布局文件，但是没有在当前应用程序中使用，而是在其他应用程序中使用，这个布局文件对于当前应用程序来说就是远程布局
+            appWidgetManager.updateAppWidget(provider, views);
+
+
         }
 
     }
