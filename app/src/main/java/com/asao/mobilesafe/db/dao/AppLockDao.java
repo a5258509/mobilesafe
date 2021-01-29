@@ -1,9 +1,11 @@
 package com.asao.mobilesafe.db.dao;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.asao.mobilesafe.bean.BlackNumberInfo;
 import com.asao.mobilesafe.db.AppLockConstants;
@@ -18,9 +20,11 @@ import java.util.List;
 public class AppLockDao {
 
     private final AppLockOpenHelper appLockOpenHelper;
+    private Context mcontext;
 
     public AppLockDao(Context context){
         appLockOpenHelper = new AppLockOpenHelper(context);
+        this.mcontext=context;
     }
 
     //增删改查
@@ -38,6 +42,14 @@ public class AppLockDao {
             values.put(AppLockConstants.PACKAGENAME,packagename);
             long insert = database.insert(AppLockConstants.TABLE_NAME, null, values);
             database.close();
+
+        //当数据添加成功的时候，发送一个数据更新的消息，告诉内容观察者，这样内容观察者就可以观察到数据的变化，实现更新数据库操作
+        ContentResolver contentResolver=mcontext.getContentResolver();
+        Uri uri = Uri.parse("content://com.asao.mobilesafe.UPDATESQLITE");
+        //uri : uri地址
+        //observer : 通知哪个内容观察者，如果是null，表示通知所有通过uri地址注册的内容观察者
+        contentResolver.notifyChange(uri, null);//通知内容观察者数据发生变化了
+
             //判断是否添加成功
             return insert !=-1;
         //}
@@ -52,6 +64,14 @@ public class AppLockDao {
         String[] whereArgs={packagename};//查询条件的参数
         int delete = database.delete(AppLockConstants.TABLE_NAME, whereClause, whereArgs);
         database.close();
+
+        //当数据删除成功的时候，也发送一个数据更新的消息，告诉内容观察者，这样内容观察者就可以观察到数据的变化，实现更新数据库操作
+        ContentResolver contentResolver=mcontext.getContentResolver();
+        Uri uri = Uri.parse("content://com.asao.mobilesafe.UPDATESQLITE");
+        //uri : uri地址
+        //observer : 通知哪个内容观察者，如果是null，表示通知所有通过uri地址注册的内容观察者
+        contentResolver.notifyChange(uri, null);//通知内容观察者数据发生变化了
+
         return delete !=0;
     }
 

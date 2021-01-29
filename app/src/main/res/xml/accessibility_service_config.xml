@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/accessibility_service_description"
+    android:accessibilityEventTypes="typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    />
+
+    <!--
+        description :描述信息
+        packageNames ： 辅助功能服务所在的应用的包名，不写，默认当前应用程序的包名
+        accessibilityEventTypes ： 监听行为的类型,我们需要的是监听窗口改变的状态typeWindowStateChanged
+        accessibilityFlags ： 额外信息获取的标签，不写，默认flagDefault类型
+        accessibilityFeedbackType ： 反馈的信息的类型
+        notificationTimeout ： 信息交互的超时时间
+        canRetrieveWindowContent ： 是否可以读取窗口内容，默认true
+        settingsActivity : 使用accessibilityservice时候，打开那个activity。
+     -->

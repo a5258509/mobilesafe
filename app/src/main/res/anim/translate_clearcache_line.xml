@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<translate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromYDelta="0%p"
+    android:toYDelta="100%p"
+    android:duration="500"
+    android:repeatCount="infinite"
+    android:repeatMode="reverse"
+    >
+
+    <!--
+    	fromYDelta : 从哪里开始平移
+    	toYDelta ： 平移到哪里
+    	duration : 持续时间
+    	repeatCount : 动画执行的次数  infinite：一直执行
+    	repeatMode : 动画的执行类型
+
+    	p : 父控件，以父控件为参照物进行操作
+     -->
+
+</translate>

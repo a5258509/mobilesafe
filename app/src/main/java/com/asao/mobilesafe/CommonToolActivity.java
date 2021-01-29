@@ -17,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.provider.Telephony;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,10 @@ import android.widget.Toast;
 
 import com.asao.mobilesafe.bean.SMSInfo;
 import com.asao.mobilesafe.engine.SmsEngine;
+import com.asao.mobilesafe.service.AppLockService1;
+import com.asao.mobilesafe.service.BlackNumberService;
 import com.asao.mobilesafe.utils.LogUtil;
+import com.asao.mobilesafe.utils.ServiceUtil;
 import com.asao.mobilesafe.view.SettingView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,6 +46,8 @@ public class CommonToolActivity extends AppCompatActivity implements View.OnClic
     private SettingView mWriteSMS;
     private String defaultSmsApp;
     private SettingView mAppLock;
+    private SettingView mAppLockService1;
+    private SettingView mAppLockService2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -56,6 +62,8 @@ public class CommonToolActivity extends AppCompatActivity implements View.OnClic
         mReadSMS = findViewById(R.id.commontool_sv_readsms);
         mWriteSMS = findViewById(R.id.commontool_sv_writesms);
         mAppLock = findViewById(R.id.commontool_sv_applock);
+        mAppLockService1 = findViewById(R.id.commontool_sv_applockservice1);
+        mAppLockService2 = findViewById(R.id.commontool_sv_applockservice2);
 
         //设置点击事件
         mAddress.setOnClickListener(this);
@@ -67,8 +75,9 @@ public class CommonToolActivity extends AppCompatActivity implements View.OnClic
         //设置程序锁点击事件
         mAppLock.setOnClickListener(this);
 
-
-
+        //设置开启电子狗服务的点击事件
+        mAppLockService1.setOnClickListener(this);
+        mAppLockService2.setOnClickListener(this);
 
 
 
@@ -135,6 +144,26 @@ public class CommonToolActivity extends AppCompatActivity implements View.OnClic
                 Intent intent1=new Intent(this,AppLockActivity.class);
                 startActivity(intent1);
                 break;
+            case R.id.commontool_sv_applockservice1:
+                //1.开启/关闭服务
+                    //需要知道服务是否开启
+                    //不能SharedPreferences的原因：因为在系统的设置操作可以手动的停止服务，手动停止服务因为是在系统的设置界面中的，所以不好更改SharedPreferences保存的值
+                    // 动态的获取服务是否开启
+                    Intent intent2=new Intent(getApplicationContext(), AppLockService1.class);
+                    if(ServiceUtil.isServiceRunning(CommonToolActivity.this,"com.asao.mobilesafe.service.AppLockService1")){
+                        //开启->点击关闭服务
+                        stopService(intent2);
+                    }else {
+                        //关闭->点击开启服务
+                        startService(intent2);
+                    }
+                    //开关
+                    mAppLockService1.toggle();
+                break;
+            case R.id.commontool_sv_applockservice2:
+                //跳转到系统无障碍界面
+                startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                break;
         }
     }
 
@@ -179,4 +208,21 @@ public class CommonToolActivity extends AppCompatActivity implements View.OnClic
             }
         }
     }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //2.再次进入的时候，判断服务是否开启，设置开关状态
+        boolean serviceIsRunning = ServiceUtil.isServiceRunning(CommonToolActivity.this, "com.asao.mobilesafe.service.AppLockService1");
+        mAppLockService1.setToggleOn(serviceIsRunning);
+    }
+
+
+
+
+
+
+
 }

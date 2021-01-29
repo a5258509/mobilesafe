@@ -12,6 +12,7 @@ import com.asao.mobilesafe.bean.Appinfo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 获取系统安装的应用程序信息
@@ -38,6 +39,10 @@ public class AppEngine {
             String packageName = packageInfo.packageName;
             //获取清单文件中的application信息
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+
+            int uid = applicationInfo.uid;//获取app的uid
+            //UUID storageUuid = applicationInfo.storageUuid;//获取存储uid
+
             //获取应用程序名称
             String name = applicationInfo.loadLabel(pm).toString();
             //获取应用程序图标
@@ -59,7 +64,7 @@ public class AppEngine {
                 isSystem=false;
             }
             //将信息保存在bean类中
-            Appinfo appinfo=new Appinfo(packageName,name,icon,size,isSystem,sourceDir1);
+            Appinfo appinfo=new Appinfo(packageName,name,icon,size,isSystem,sourceDir1,uid);
             //将bean类保存到list集合中
             list.add(appinfo);
         }

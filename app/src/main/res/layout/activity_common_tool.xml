@@ -49,21 +49,23 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_setting_item_top"
         android:layout_marginTop="8dp"
-        asao:title="程序锁管理"
+        asao:title="应用锁管理(需开启应用锁服务)"
         asao:istoggle="false" />
 
     <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/commontool_sv_applockservice1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_setting_item_middle"
-        asao:title="开启电子狗服务1"
+        asao:title="开启应用锁服务"
         asao:istoggle="true" />
 
     <com.asao.mobilesafe.view.SettingView
+        android:id="@+id/commontool_sv_applockservice2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_setting_item_bottom"
-        asao:title="开启电子狗服务2"
-        asao:istoggle="true" />
+        asao:title="无障碍方式开启应用锁服务"
+        asao:istoggle="false" />
 
 </LinearLayout>

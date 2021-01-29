@@ -26,7 +26,7 @@ public class ProcessEngine {
     //获取正在运行的进程数
     public static int getRunningProcessCount(Context context){
 //        ActivityManager activityManager= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-//       List<ActivityManager.RunningServiceInfo> runningServices = activityManager.getRunningServices(Integer.MAX_VALUE);
+//        List<ActivityManager.RunningServiceInfo> runningServices = activityManager.getRunningServices(Integer.MAX_VALUE);
 //        for(ActivityManager.RunningServiceInfo serviceInfo:runningServices){
 //            Log.d("main1", String.valueOf(serviceInfo.service));
 //            Log.d("main1", String.valueOf(serviceInfo.process));
@@ -34,7 +34,7 @@ public class ProcessEngine {
 //        }
         ActivityManager am= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();//获取正在运行的进程的信息
-        Log.d("main1", String.valueOf(runningAppProcesses.size()));
+        //Log.d("main1", String.valueOf(runningAppProcesses.size()));
         return runningAppProcesses.size();
     }
 
@@ -100,6 +100,7 @@ public class ProcessEngine {
     //获取正在运行的进程信息
     public static List<ProcessInfo> getRunningProcessInfo(Context context){
         List<ProcessInfo> list = new ArrayList<>();
+
         //1.获取进程管理者
         ActivityManager am= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         PackageManager pm=context.getPackageManager();

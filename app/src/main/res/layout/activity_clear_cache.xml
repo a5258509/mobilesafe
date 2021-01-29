@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/ActivityTitleStyle"
+        android:text="缓存清理" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="#429ED6" >
+        <!-- 进度条布局 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <RelativeLayout
+                android:id="@+id/clearache_rel_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/scan_bg" >
+
+                <ImageView
+                    android:id="@+id/clearcache_iv_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_launcher" />
+
+                <ImageView
+                    android:id="@+id/clearcache_iv_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/scan_line" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/clearache_rel_icon"
+                android:orientation="vertical" >
+
+                <ProgressBar
+                    android:id="@+id/clearcache_pb_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:progressDrawable="@drawable/customprogress" />
+
+                <TextView
+                    android:id="@+id/clearcache_tv_packageName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="com.android.sms"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/clearcache_tv_cachesize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="缓存大小:0.00B"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- 快速扫描布局 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:visibility="gone"
+            >
+            <TextView
+                android:id="@+id/clearcache_tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总共有0个缓存软件，总共0.00B"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/clearcache_btn_again"
+                />
+            <Button
+                android:id="@+id/clearcache_btn_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快速扫描"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/selector_home_dialog_ok_bg"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/clearcache_lv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        ></ListView>
+
+    <Button
+        android:id="@+id/clearcache_btn_allclear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="一键清理"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/selector_home_dialog_ok_bg"
+        android:layout_margin="10dp"
+        />
+
+</LinearLayout>

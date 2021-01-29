@@ -158,6 +158,16 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent intent3=new Intent(HomeActivity.this,ProcessManagerActivity.class);
                 startActivity(intent3);
                 break;
+            case 4:
+                //流量统计
+                Intent intent4=new Intent(HomeActivity.this,TrafficActivity.class);
+                startActivity(intent4);
+                break;
+            case 6:
+                //缓存清理
+                Intent intent6=new Intent(HomeActivity.this,ClearCacheActivity.class);
+                startActivity(intent6);
+                break;
             case 7:
                 // 常用工具
                 Intent intent7=new Intent(HomeActivity.this,CommonToolActivity.class);
