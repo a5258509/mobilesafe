@@ -32,8 +32,13 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission
+        android:name="android.permission.CLEAR_APP_CACHE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.INSTALL_SHORTCUT"/>
+
 
     <application
         android:name=".MainApplication"
@@ -44,7 +49,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.手机卫士"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ClearCacheActivity"></activity>
+
+        <activity android:name=".AntiVirusActivity"></activity>
+        <activity android:name=".ClearCacheActivity" />
         <activity android:name=".TrafficActivity" />
         <!--
           launchMode : 启动模式
@@ -239,6 +246,10 @@
             android:enabled="true"
             android:exported="false"
             android:grantUriPermissions="true" />
+
+
+
+
     </application>
 
 </manifest>

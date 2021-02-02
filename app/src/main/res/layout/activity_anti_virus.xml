@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/ActivityTitleStyle"
+        android:text="手机杀毒" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="#429ED6" >
+
+        <!-- 重新扫描的布局 -->
+        <LinearLayout
+            android:id="@+id/anti_ll_againscan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/anti_tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机非常安全"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/anti_btn_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_home_dialog_ok_bg"
+                android:text="重新扫描"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+        <!-- 进度条的布局 -->
+        <LinearLayout
+            android:id="@+id/anti_ll_scan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:id="@+id/anti_acp_pb"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="#429ED6"
+                custom:arc_bottom_text="扫描中"
+                custom:arc_progress="0"
+                custom:arc_text_color="#FFFFFF"
+                custom:arc_bottom_text_size="15sp"
+                custom:arc_stroke_width="10dp"
+                />
+
+            <TextView
+                android:id="@+id/anti_tv_packageName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="com.android.mms"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/anti_ll_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+            <ImageView
+                android:id="@+id/anti_iv_left"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                />
+            <ImageView
+                android:id="@+id/anti_iv_right"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/anti_lv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+
+</LinearLayout>

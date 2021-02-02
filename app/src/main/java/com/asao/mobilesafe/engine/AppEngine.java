@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.asao.mobilesafe.bean.Appinfo;
+import com.asao.mobilesafe.utils.MD5Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,11 +34,21 @@ public class AppEngine {
         PackageManager pm=context.getPackageManager();
         //2.获取安装的所有应用程序信息
         //flags:获取额外信息的标示
-        List<PackageInfo> installedPackages = pm.getInstalledPackages(0);
+        List<PackageInfo> installedPackages = pm.getInstalledPackages(PackageManager.GET_SIGNATURES);
         //3.遍历集合,从应用程序的信息中获取我们需要的信息
         for(PackageInfo packageInfo:installedPackages){
             //获取应用包名
             String packageName = packageInfo.packageName;
+
+
+            //获取应用程序的特征码
+            //获取应用的签名信息
+            Signature[] signatures=packageInfo.signatures;
+            String charsString = signatures[0].toCharsString();
+            //将获取的签名信息进行md5加密
+            String md5 = MD5Util.msgToMD5(charsString);
+
+
             //获取清单文件中的application信息
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
 
@@ -64,7 +76,7 @@ public class AppEngine {
                 isSystem=false;
             }
             //将信息保存在bean类中
-            Appinfo appinfo=new Appinfo(packageName,name,icon,size,isSystem,sourceDir1,uid);
+            Appinfo appinfo=new Appinfo(packageName,name,icon,size,isSystem,sourceDir1,uid,md5);
             //将bean类保存到list集合中
             list.add(appinfo);
         }

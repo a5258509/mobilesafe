@@ -59,6 +59,10 @@
             android:onClick="enterSetting">
         </ImageView>
     </RelativeLayout>
+
+
+
+
     <!--android:numColumns="2" 设置显示列数-->
     <!--horizontalSpacing 设置列与列之间的距离-->
     <!--verticalSpacing 设置行与行之间的距离-->
@@ -70,5 +74,8 @@
         android:verticalSpacing="10dp"
         android:numColumns="2">
     </GridView>
+
+
+
 
 </LinearLayout>

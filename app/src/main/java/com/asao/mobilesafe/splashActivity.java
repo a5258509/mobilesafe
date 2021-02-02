@@ -29,6 +29,7 @@ import com.asao.mobilesafe.utils.Constants;
 import com.asao.mobilesafe.utils.PackageUtil;
 import com.asao.mobilesafe.utils.SharedPreferencesUtil;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.HttpManager;
@@ -46,7 +47,7 @@ public class splashActivity extends AppCompatActivity  {
         System.loadLibrary("native-lib");
     }
 
-    private static final String url="http://192.168.1.6:8080/img/update.html";
+    private static final String url="http://192.168.1.7:8080/img/update.html";
     private TextView mVersion;
     private int mNewsCode;
     private String mNewsUrl;
@@ -60,6 +61,7 @@ public class splashActivity extends AppCompatActivity  {
         //去除标题栏,必须放在setContentView之前,只在当前activity生效
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
+
 
         if (ContextCompat.checkSelfPermission(splashActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(splashActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SEND_SMS,Manifest.permission.RECEIVE_SMS,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_CALL_LOG,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ANSWER_PHONE_CALLS},1);

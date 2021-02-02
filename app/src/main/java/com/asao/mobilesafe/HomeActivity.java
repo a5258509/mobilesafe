@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.asao.mobilesafe.service.ProtectedService;
 import com.asao.mobilesafe.utils.Constants;
 import com.asao.mobilesafe.utils.MD5Util;
 import com.asao.mobilesafe.utils.SharedPreferencesUtil;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,10 +63,15 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+
+
+
         initView();
 
         //拷贝归属地数据库
         copyDB("address.db");
+        //拷贝病毒数据库
+        copyDB("antivirus.db");
         
         //开启守护进程
         startService(new Intent(this, ProtectedService.class));
@@ -162,6 +169,11 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 //流量统计
                 Intent intent4=new Intent(HomeActivity.this,TrafficActivity.class);
                 startActivity(intent4);
+                break;
+            case 5:
+                //手机杀毒
+                Intent intent5=new Intent(HomeActivity.this,AntiVirusActivity.class);
+                startActivity(intent5);
                 break;
             case 6:
                 //缓存清理
